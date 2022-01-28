@@ -20,7 +20,7 @@ class CreateTableProductCategory extends Migration
             $table->integer('order')->nullable()->default(null);
             $table->string('thumb_image')->nullable()->default(null);
             $table->string('big_image')->nullable()->default(null);
-            $table->timestamps(); 
+            $table->timestamps();      
         });
     }
 
