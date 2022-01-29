@@ -13,14 +13,15 @@ class CreateTableProductCategory extends Migration
      */
     public function up()
     {
-        Schema::table('product_categories', function (Blueprint $table) {
+        Schema::create('product_categories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->nullable()->default(null);
             $table->string('url')->nullable()->default(null);
             $table->integer('order')->nullable()->default(null);
             $table->string('thumb_image')->nullable()->default(null);
             $table->string('big_image')->nullable()->default(null);
-            $table->timestamps();      
+            $table->tinyInteger('status')->nullable()->default(0);
+            $table->timestamps();
         });
     }
 
@@ -31,8 +32,6 @@ class CreateTableProductCategory extends Migration
      */
     public function down()
     {
-        Schema::table('product_categories', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('product_categories');
     }
 }

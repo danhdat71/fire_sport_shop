@@ -1,0 +1,88 @@
+.v-mid{
+	vertical-align: middle!important;
+}
+.active-menu{
+	background-color: #fd7e14!important;
+	color: white!important;
+}
+.d-flex{
+	display: flex!important;
+}
+.flex-end{
+	justify-content: flex-end!important;
+}
+.align-center{
+	align-items: center!important;
+}
+.bg-orange{
+	color: white!important;
+}
+.radio-1{
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+}
+.input-file-1{
+	width: 100%;
+	height: 350px;
+	border: 1px dashed gray;
+	border-radius: 2px;
+	margin: 15px 0;
+	position: relative;
+}
+.input-file-1 input{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: 10;
+	opacity: 0;
+}
+.input-file-1 img{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	position: absolute;
+	z-index: 1;
+	opacity: 0;
+}
+.input-file-1 .icon{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 35px;
+	color: gray;
+}
+ul.pagination{
+	padding: 30px 0;
+}
+ul.pagination li:first-child a,
+ul.pagination li:last-child a{
+	width: unset;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+ul.pagination li a{
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	border: 1px solid orange;
+	color: orange;
+	margin: 0 2px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 2px;
+}
+ul.pagination li.active a{
+	background-color: orange!important;
+	color: white!important;
+}
+.validate-msg{
+	display: block;
+	padding-top: 5px; 
+}
+.progress-bar{
+	transition: 0.5s;
+}
