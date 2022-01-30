@@ -13,5 +13,9 @@ use App\Http\Controllers\SlidersController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::resource('slider', SlidersController::class);
+Route::get('/slider/', [SlidersController::class, 'index']);
+Route::get('/slider/{id}', [SlidersController::class, 'show']);
+Route::delete('/slider/{id}', [SlidersController::class, 'destroy']);
+Route::post('/slider', [SlidersController::class, 'store']);
+Route::post('/slider/update', [SlidersController::class, 'update']);
+Route::post('/slider/status/update', [SlidersController::class, 'updateStatus']);

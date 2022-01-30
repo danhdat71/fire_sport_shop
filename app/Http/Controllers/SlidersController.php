@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\SliderService;
 use App\Http\Requests\CreateSliderRequest;
+use App\Http\Requests\UpdateSliderRequest;
 
 class SlidersController extends Controller
 {
@@ -23,8 +24,11 @@ class SlidersController extends Controller
      */
     public function index(Request $request)
     {
-        $sliders = $this->sliderService->list($request->only('keyword'));
-        return view('admin.slider', compact(['sliders']));
+        $respondData = $this->sliderService->list($request->only('keyword', 'order_by'));
+        $sliders = $respondData['list'];
+        $keyword = $respondData['keyword'];
+        $orderBy = $respondData['orderBy'];
+        return view('admin.slider', compact(['sliders', 'keyword', 'orderBy']));
     }
 
     /**
@@ -59,7 +63,7 @@ class SlidersController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->sliderService->show($id);
     }
 
     /**
@@ -80,9 +84,11 @@ class SlidersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateSliderRequest $request)
     {
-        //
+        $file = $request->file('image');
+        $requestData = $request->only('url', 'status', 'id');
+        return $this->sliderService->update($file, $requestData);
     }
 
     /**
@@ -94,5 +100,16 @@ class SlidersController extends Controller
     public function destroy($id)
     {
         return $this->sliderService->destroy($id);
+    }
+
+    /**
+     * Update slider status
+     * @param $request
+     * @return boolean
+     * **/
+    public function updateStatus(Request $request)
+    {
+        $requestData = $request->only('id', 'status');
+        return $this->sliderService->updateStatus($requestData);
     }
 }

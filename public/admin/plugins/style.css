@@ -11,6 +11,9 @@
 .flex-end{
 	justify-content: flex-end!important;
 }
+.flex-column{
+	flex-direction: column!important;
+}
 .align-center{
 	align-items: center!important;
 }

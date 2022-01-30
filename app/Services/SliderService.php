@@ -10,6 +10,7 @@ class SliderService
 {
     use HelpTraits;
     private $slider;
+    private $size = [1024, 600, 500, 250];
 
     public function __construct(Slider $slider)
     {
@@ -25,15 +26,23 @@ class SliderService
     public function list($requestData)
     {
         $keyword = (isset($requestData['keyword'])) ? $requestData['keyword'] : null;
+        $orderBy = (isset($requestData['order_by'])) ? explode("|", $requestData['order_by']) : [];
 
         $list = $this->slider
-            ->when(isset($keyword), function($q){
-                $q->where('url', 'like', "'%".$keyword."%'");
+            ->when(isset($keyword), function($q) use($keyword){
+                $q->where('url', 'like', "%".$keyword."%");
+            })
+            ->when(count($orderBy) > 0, function($q) use($orderBy){
+                $q->orderBy($orderBy[0], $orderBy[1]);
             })
             ->orderBy('created_at', 'DESC')
             ->paginate(AppConstant::PAGINATE);
 
-        return $list;
+        return [
+            'list' => $list,
+            'keyword' => $keyword,
+            'orderBy' => $requestData['order_by'] ?? null
+        ];
     }
 
     /**
@@ -45,7 +54,7 @@ class SliderService
     public function store($requestData, $file)
     {
         //Storage image
-        $thumbBigSize = [1024, 600, 500, 250];
+        $thumbBigSize = $this->size;
         $path = $this->savePublicImage($file, "sliders", $thumbBigSize, 100);
 
         //Insert record
@@ -72,5 +81,59 @@ class SliderService
         $slider->delete();
 
         return true;
+    }
+
+    /**
+     * Show slider
+     * @param $id
+     * @return object slider
+     * function get one slider
+     * **/
+    public function show($id)
+    {
+        return $this->slider->find($id);
+    }
+
+    /**
+     * @param $id
+     * @param $requestData
+     * @param $file
+     * function update slider
+     * @return boolean
+     * **/
+    public function update($file, $requestData)
+    {
+        $slider = $this->slider->find($requestData['id']);
+        $updateData = [];
+        $updateData['url'] = $requestData['url'] ?? null;
+        $updateData['status'] = $requestData['status'] ?? null;
+        if(isset($file)){
+            $thumbBigSize = $this->size;
+            #Remove old image
+            $thumb = "image/sliders/" . $slider->thumb_image;
+            $big = "image/sliders/" . $slider->big_image;
+            $this->deleteImage([$thumb, $big]);
+            #Upload new image
+            $path = $this->savePublicImage($file, "sliders", $thumbBigSize, 100);
+            $updateData['big_image'] = $path['big_image'];
+            $updateData['thumb_image'] = $path['thumb_image'];
+        }
+        $slider->update($updateData);
+
+        return true;
+    }
+
+    /**
+     * Update slider status
+     * @param $request
+     * @return boolean
+     * **/
+    public function updateStatus($requestData)
+    {
+        $slider = $this->slider->find($requestData['id'])->update([
+            'status' => $requestData['status']
+        ]);
+
+        return $requestData;
     }
 }
