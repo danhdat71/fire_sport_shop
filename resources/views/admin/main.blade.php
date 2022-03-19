@@ -911,5 +911,6 @@
 
 </script>
 <script src="admin/plugins/ajax.js"></script>
+<script src="admin/plugins/style.js"></script>
 </body>
 </html>

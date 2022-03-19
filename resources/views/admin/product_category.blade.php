@@ -6,7 +6,7 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Slider</h1>
+                <h1>Product category</h1>
             </div>
             <div class="col-sm-6 d-flex flex-end align-center">
                 <button data-toggle="modal" data-target="#add" type="button" class="btn bg-orange">+ Tạo Mới</button>
@@ -21,7 +21,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <form action="/slider" method="get" class="row">
+                            <form action="/product-category" method="get" class="row">
                                 <div class="col-lg-3">
                                     <label for="keyword">Tìm kiếm</label>
                                     <input 
@@ -99,13 +99,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($sliders as $slider)
+                                    @foreach($list as $productCategory)
                                     <tr>
-                                        <td class="v-mid">{{$slider->id}}</td>
+                                        <td class="v-mid">{{$productCategory->id}}</td>
                                         <td class="v-mid">
-                                            <img width="200" src="image/sliders/{{$slider->thumb_image}}" alt="">
+                                            <img width="200" src="image/productCategories/{{$productCategory->thumb_image}}" alt="">
                                         </td>
-                                        <td class="v-mid"><a target="_blank" class="btn" href="{{$slider->url}}">{{$slider->url}}</a></td>
+                                        <td class="v-mid"><a target="_blank" class="btn" href="{{$productCategory->url}}">{{$productCategory->url}}</a></td>
                                         <td class="v-mid">
                                             <input 
                                                 type="checkbox" 
@@ -113,30 +113,30 @@
                                                 data-bootstrap-switch 
                                                 data-off-color="light" 
                                                 data-on-color="orange"
-                                                class="switch-status slider-status"
-                                                data-id="{{$slider->id}}"
-                                                @if($slider->status == 1)
+                                                class="switch-status product-category-status"
+                                                data-id="{{$productCategory->id}}"
+                                                @if($productCategory->status == 1)
                                                 checked
                                                 @endif
                                             >
                                         </td>
                                         <td class="v-mid">
-                                            <div>{{$slider->created_at}}</div>
-                                            <div>{{$slider->updated_at}}</div>
+                                            <div>{{$productCategory->created_at}}</div>
+                                            <div>{{$productCategory->updated_at}}</div>
                                         </td>
                                         <td class="v-mid">
-                                            <button data-id="{{$slider->id}}" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm edit">Chỉnh sửa</button>
+                                            <button data-id="{{$productCategory->id}}" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm edit-product-category">Chỉnh sửa</button>
                                             <button
-                                                class="btn text-danger delete-slider"
-                                                data-id="{{$slider->id}}"
-                                            >Xóa Slide</button
+                                                class="btn text-danger delete-product-category"
+                                                data-id="{{$productCategory->id}}"
+                                            >Xóa</button
                                         </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                             <div class="paginate">
-                                {{$sliders->links('global.paginate', [
+                                {{$list->links('global.paginate', [
                                     'keyword' => $keyword ?? null,
                                     'order_by' => $orderBy ?? null
                                 ])}}
@@ -157,12 +157,17 @@
         <div class="modal-dialog" style="max-width: 1000px">
           <div class="modal-content">
             <div class="modal-header">
-              Tạo slider
+              Tạo Loại sản phẩm
             </div>
-            <form enctype="multipart/form-data" id="form-slider-upload" class="modal-body">
+            <form action="/product-category" enctype="multipart/form-data" id="form-product-category-upload" class="modal-body">
                 <div class="form-group">
-                    <label for="">Đường dẫn</label>
-                    <input type="text" class="form-control" name="url">
+                    <label for="">Tên loại</label>
+                    <input type="text" class="form-control url" name="name">
+                    <p class="text-danger name validate-msg"></p>
+                </div>
+                <div class="form-group">
+                    <label for="">URL</label>
+                    <input type="text" class="form-control url-genegrate" name="url">
                     <p class="text-danger url validate-msg"></p>
                 </div>
                 <div class="form-group">
@@ -174,12 +179,6 @@
                         <div class="icon"><i class="fas fa-image"></i></div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <select name="status" class="form-control">
-                        <option value="1">Hiện sau khi lưu</option>
-                        <option value="0">Ẩn sau khi lưu</option>
-                    </select>
-                </div>
             </form>
             <div class="modal-footer">
               <div class="row w-100 align-center">
@@ -189,10 +188,9 @@
                     </div>
                   </div>
                   <div class="col-lg-2">
-                    <button id="upload-slider" type="button" class="btn bg-orange btn-block">Lưu</button>
+                    <button id="upload-product-category" type="button" class="btn bg-orange btn-block">Lưu</button>
                   </div>
               </div>
-              
             </div>
           </div>
           <!-- /.modal-content -->
@@ -204,13 +202,18 @@
         <div class="modal-dialog" style="max-width: 1000px">
           <div class="modal-content">
             <div class="modal-header">
-              Update slider
+              Update product category
             </div>
-            <form enctype="multipart/form-data" id="form-slider-update" class="modal-body">
-                <input type="hidden" id="slider-id" name="id">
+            <form enctype="multipart/form-data" id="form-product-category-update" class="modal-body">
+                <input type="hidden" id="product-category-id" name="id">
+                <div class="form-group">
+                    <label for="">Tiêu đề</label>
+                    <input type="text" class="form-control url name" name="name">
+                    <p class="text-danger url validate-msg"></p>
+                </div>
                 <div class="form-group">
                     <label for="">Đường dẫn</label>
-                    <input type="text" class="form-control url" name="url">
+                    <input type="text" class="form-control url-genegrate" name="url">
                     <p class="text-danger url validate-msg"></p>
                 </div>
                 <div class="form-group">
@@ -237,16 +240,15 @@
                     </div>
                   </div>
                   <div class="col-lg-2">
-                    <button id="update-slider" type="button" class="btn bg-orange btn-block">Lưu</button>
+                    <button id="update-product-category" type="button" class="btn bg-orange btn-block">Lưu</button>
                   </div>
               </div>
-              
             </div>
           </div>
           <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
     </div>
-</div>
 
+</div>
 @endsection

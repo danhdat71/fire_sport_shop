@@ -25,8 +25,8 @@ Route::post('/slider/status/update', [SlidersController::class, 'updateStatus'])
 
 /** Product Category **/
 Route::get('/product-category/', [ProductCategoriesController::class, 'index']);
-
-
-Route::get('/test-pusher', function(){
-    return view('test');
-});
+Route::post('/product-category', [ProductCategoriesController::class, 'store']);
+Route::delete('/product-category/{id}', [ProductCategoriesController::class, 'destroy']);
+Route::get('/product-category/{id}', [ProductCategoriesController::class, 'show']);
+Route::post('/product-category/update', [ProductCategoriesController::class, 'update']);
+Route::post('/product-category/status/update', [ProductCategoriesController::class, 'updateStatus']);
