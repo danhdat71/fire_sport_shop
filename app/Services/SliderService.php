@@ -5,13 +5,20 @@ namespace App\Services;
 use App\Models\Slider;
 use App\Traits\HelpTraits;
 use App\Constants\AppConstant;
+use App\Constants\ImageConstant;
 
 class SliderService
 {
     use HelpTraits;
-    private $slider;
-    private $size = [1024, 600, 500, 250];
 
+    /**
+     * Slider model variable
+     * **/
+    private $slider;
+
+    /**
+     * Constructor
+     * **/
     public function __construct(Slider $slider)
     {
         $this->slider = $slider;
@@ -54,8 +61,7 @@ class SliderService
     public function store($requestData, $file)
     {
         //Storage image
-        $thumbBigSize = $this->size;
-        $path = $this->savePublicImage($file, "sliders", $thumbBigSize, 100);
+        $path = $this->savePublicImage($file, "sliders", ImageConstant::SLIDER, 100);
 
         //Insert record
         $requestData['big_image'] = $path['big_image'];
@@ -108,13 +114,12 @@ class SliderService
         $updateData['url'] = $requestData['url'] ?? null;
         $updateData['status'] = $requestData['status'] ?? null;
         if(isset($file)){
-            $thumbBigSize = $this->size;
             #Remove old image
             $thumb = "image/sliders/" . $slider->thumb_image;
             $big = "image/sliders/" . $slider->big_image;
             $this->deleteImage([$thumb, $big]);
             #Upload new image
-            $path = $this->savePublicImage($file, "sliders", $thumbBigSize, 100);
+            $path = $this->savePublicImage($file, "sliders", ImageConstant::SLIDER, 100);
             $updateData['big_image'] = $path['big_image'];
             $updateData['thumb_image'] = $path['thumb_image'];
         }

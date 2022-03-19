@@ -4,5 +4,5 @@ namespace App\Constants;
 
 class AppConstant
 {
-    const PAGINATE = 10;
+    const PAGINATE = 2;
 }

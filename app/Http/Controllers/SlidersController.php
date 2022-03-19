@@ -28,6 +28,7 @@ class SlidersController extends Controller
         $sliders = $respondData['list'];
         $keyword = $respondData['keyword'];
         $orderBy = $respondData['orderBy'];
+
         return view('admin.slider', compact(['sliders', 'keyword', 'orderBy']));
     }
 
@@ -88,6 +89,7 @@ class SlidersController extends Controller
     {
         $file = $request->file('image');
         $requestData = $request->only('url', 'status', 'id');
+        
         return $this->sliderService->update($file, $requestData);
     }
 
