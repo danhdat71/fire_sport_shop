@@ -41,6 +41,7 @@ class ProductCategoryService
             ->when(count($orderBy) > 0, function($q) use($orderBy){
                 $q->orderBy($orderBy[0], $orderBy[1]);
             })
+            ->withCount('products')
             ->orderBy('created_at', 'DESC')
             ->paginate(AppConstant::PAGINATE);
 
@@ -52,6 +53,16 @@ class ProductCategoryService
     }
 
     /**
+     * Get all product category status TRUE
+     * 
+     * @return $list
+     * **/
+    public function getAll()
+    {
+        return $this->productCategory->all();
+    }
+
+    /**
      * Store product category
      * @param $data, $file
      * @return boolean
@@ -59,7 +70,14 @@ class ProductCategoryService
     public function store($requestData, $file)
     {
         //Storage image
-        $path = $this->savePublicImage($file, "productCategories", ImageConstant::PRODUCT_CATEGORY, 100);
+        $path = $this->savePublicImage(
+            $file, 
+            "productCategories", 
+            ImageConstant::PRODUCT_CATEGORY,
+            100,
+            true,
+            false
+        );
         //Insert record
         $requestData['big_image'] = $path['big_image'];
         $requestData['thumb_image'] = $path['thumb_image'];
@@ -93,7 +111,14 @@ class ProductCategoryService
             $big = "image/productCategories/" . $productCategory->big_image;
             $this->deleteImage([$thumb, $big]);
             #Upload new image
-            $path = $this->savePublicImage($file, "productCategories", ImageConstant::SLIDER, 100);
+            $path = $this->savePublicImage(
+                $file,
+                "productCategories",
+                ImageConstant::SLIDER,
+                100,
+                true,
+                false
+            );
             $updateData['big_image'] = $path['big_image'];
             $updateData['thumb_image'] = $path['thumb_image'];
         }

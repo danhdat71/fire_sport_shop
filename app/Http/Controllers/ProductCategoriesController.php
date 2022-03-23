@@ -119,5 +119,4 @@ class ProductCategoriesController extends Controller
         $requestData = $request->only('id', 'status');
         return $this->productCategoryService->updateStatus($requestData);
     }
-    
 }

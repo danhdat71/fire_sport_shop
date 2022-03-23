@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SlidersController;
 use App\Http\Controllers\ProductCategoriesController;
+use App\Http\Controllers\ProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,18 @@ Route::delete('/product-category/{id}', [ProductCategoriesController::class, 'de
 Route::get('/product-category/{id}', [ProductCategoriesController::class, 'show']);
 Route::post('/product-category/update', [ProductCategoriesController::class, 'update']);
 Route::post('/product-category/status/update', [ProductCategoriesController::class, 'updateStatus']);
+
+/** Products managerment **/
+Route::get('/product/', [ProductsController::class, 'index']);
+Route::post('/product', [ProductsController::class, 'store']);
+Route::get('/product/{id}', [ProductsController::class, 'show']);
+Route::post('/product/update', [ProductsController::class, 'update']);
+Route::post('/product/status/update', [ProductsController::class, 'updateStatus']);
+Route::delete('/product/{id}', [ProductsController::class, 'destroy']);
+
+// Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+//     \UniSharp\LaravelFilemanager\Lfm::routes();
+// });
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => []], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});

@@ -61,7 +61,14 @@ class SliderService
     public function store($requestData, $file)
     {
         //Storage image
-        $path = $this->savePublicImage($file, "sliders", ImageConstant::SLIDER, 100);
+        $path = $this->savePublicImage(
+            $file,
+            "sliders",
+            ImageConstant::SLIDER,
+            100,
+            true,
+            false
+        );
 
         //Insert record
         $requestData['big_image'] = $path['big_image'];
@@ -119,7 +126,14 @@ class SliderService
             $big = "image/sliders/" . $slider->big_image;
             $this->deleteImage([$thumb, $big]);
             #Upload new image
-            $path = $this->savePublicImage($file, "sliders", ImageConstant::SLIDER, 100);
+            $path = $this->savePublicImage(
+                $file,
+                "sliders",
+                ImageConstant::SLIDER,
+                100,
+                true,
+                false
+            );
             $updateData['big_image'] = $path['big_image'];
             $updateData['thumb_image'] = $path['thumb_image'];
         }

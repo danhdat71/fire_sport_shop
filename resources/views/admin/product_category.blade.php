@@ -126,10 +126,13 @@
                                         </td>
                                         <td class="v-mid">
                                             <button data-id="{{$productCategory->id}}" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm edit-product-category">Chỉnh sửa</button>
+                                            <a href="/product?category={{$productCategory->id}}" class="btn btn-sm btn-warning">
+                                                {{$productCategory->products_count}} SP
+                                            </a>
                                             <button
                                                 class="btn text-danger delete-product-category"
                                                 data-id="{{$productCategory->id}}"
-                                            >Xóa</button
+                                            >Xóa</button>
                                         </td>
                                     </tr>
                                     @endforeach

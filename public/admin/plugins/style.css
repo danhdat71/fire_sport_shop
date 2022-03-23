@@ -25,7 +25,8 @@
 	height: 20px;
 	cursor: pointer;
 }
-.input-file-1{
+.input-file-1,
+.input-file-2{
 	width: 100%;
 	height: 350px;
 	border: 1px dashed gray;
@@ -33,14 +34,16 @@
 	margin: 15px 0;
 	position: relative;
 }
-.input-file-1 input{
+.input-file-1 input,
+.input-file-2 input{
 	width: 100%;
 	height: 100%;
 	position: absolute;
 	z-index: 10;
 	opacity: 0;
 }
-.input-file-1 img{
+.input-file-1 img,
+.input-file-2 img{
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
@@ -48,7 +51,8 @@
 	z-index: 1;
 	opacity: 0;
 }
-.input-file-1 .icon{
+.input-file-1 .icon,
+.input-file-2 .icon{
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -88,4 +92,16 @@ ul.pagination li.active a{
 }
 .progress-bar{
 	transition: 0.5s;
+}
+.bootstrap-tagsinput{
+	width: 100%!important;
+}
+.bootstrap-tagsinput span{
+	color: black!important;
+}
+.bootstrap-tagsinput .label-info{
+	cursor: pointer;
+}
+.bootstrap-tagsinput{
+	line-height: 28px!important;
 }
