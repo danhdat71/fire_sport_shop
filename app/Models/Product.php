@@ -9,7 +9,14 @@ class Product extends Model
 {
     use HasFactory;
 
+    /**
+     * Table name
+     * **/
     protected $table = 'products';
+
+    /**
+     * Table column
+     * **/
     protected $fillable = [
         'id',
         'name',
@@ -19,6 +26,7 @@ class Product extends Model
         'short_desc',
         'long_desc',
         'image_1',
+        'thumb_image_1',
         'image_2',
         'from',
         'category_id',
@@ -33,5 +41,25 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    /**
+     * The roles that belong to the Product
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function colors()
+    {
+        return $this->belongsToMany(Color::class, 'colors_products_pivot', 'product_id', 'color_id');
+    }
+
+    /**
+     * The roles that belong to the Product
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function sizes()
+    {
+        return $this->belongsToMany(Size::class, 'product_size_pivot', 'product_id', 'size_id');
     }
 }

@@ -3,6 +3,8 @@ $('.url').on('input', function(){
     $('.url-genegrate').val(ChangeToSlug(urlStr));
 });
 
+$('.tag-input').tagsinput();
+
 function ChangeToSlug(title)
 {
     let slug = title.toLowerCase();
@@ -25,3 +27,17 @@ function ChangeToSlug(title)
 
     return slug;
 }
+
+$('.product-color').on('change', function(){
+    $('.tag-input').tagsinput('add', $(this).val());
+});
+
+$('.bootstrap-tagsinput').on('mouseenter', 'span.label-info',  function(){
+    $('.bootstrap-tagsinput').find('span.label-info').css({
+        'background-color' : 'unset'
+    });
+    $(this).css({
+        'background-color' : $(this).text()
+    });
+    $('.product-color').val($(this).text());
+});

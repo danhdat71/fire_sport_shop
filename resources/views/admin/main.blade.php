@@ -29,6 +29,8 @@
   <!-- summernote -->
   <link rel="stylesheet" href="admin/plugins/style.css">
   <link rel="stylesheet" href="admin/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+  <!-- bootstrap tag input -->
+  <link rel="stylesheet" href="admin/plugins/bootstrap-tag-input/all.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -886,6 +888,8 @@
 <script src="admin/plugins/summernote/summernote-bs4.min.js"></script>
 <!-- overlayScrollbars -->
 <script src="admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- bootstrap tag inpt -->
+<script src="admin/plugins/bootstrap-tag-input/all.min.js"></script>
 <!-- AdminLTE App -->
 <script src="admin/dist/js/adminlte.js"></script>
 <!-- AdminLTE for demo purposes -->
@@ -895,6 +899,7 @@
 <script src="admin/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 <script src="admin/plugins/dropzone/min/dropzone.min.js"></script>
 <script src="admin/plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="admin/plugins/ckeditor/ckeditor.js"></script>
 <script>
     const _token = '{{csrf_token()}}';
     const baseUrl = '{{config('app.url')}}';
@@ -908,6 +913,28 @@
       let src = URL.createObjectURL(event.target.files[0]);
       $('.preview-image').css({'opacity': '1'}).attr('src', src);
     });
+
+    //Preview image product
+    $('.input-image-1').on('change', function(e){
+      $('.preview-image-1').css({'opacity': '0'}).attr('src', "");
+      let src = URL.createObjectURL(event.target.files[0]);
+      $('.preview-image-1').css({'opacity': '1'}).attr('src', src);
+    });
+    $('.input-image-2').on('change', function(e){
+      $('.preview-image-2').css({'opacity': '0'}).attr('src', "");
+      let src = URL.createObjectURL(event.target.files[0]);
+      $('.preview-image-2').css({'opacity': '1'}).attr('src', src);
+    });
+
+    //Ck editor
+    var options = {
+      filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+      filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+      filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+      filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+    };
+    CKEDITOR.replace('ckeditor_1', options);
+    CKEDITOR.replace('ckeditor_2', options);
 
 </script>
 <script src="admin/plugins/ajax.js"></script>

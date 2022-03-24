@@ -15,14 +15,14 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        #SUPER ADMIN
+        # SUPER ADMIN
         User::create([
             'email' => 'danhdat71@gmail.com',
             'name' => 'Danh Đạt',
             'role' => RoleConstants::SUPER_ADMIN
         ]);
 
-        #ADMIN
+        # ADMIN
         User::create([
             'email' => 'datd@bap.jp',
             'name' => 'Danh Đạt',
