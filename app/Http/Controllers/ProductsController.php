@@ -45,6 +45,7 @@ class ProductsController extends Controller
         $category = $respondData['category'];
         $productCategories = $this->productCategoryService->getAll();
         $sizes = $this->sizeService->getAll();
+        $tab = "product";
 
         return view('admin/product', compact(
             'list',
@@ -52,7 +53,8 @@ class ProductsController extends Controller
             'orderBy',
             'productCategories',
             'category',
-            'sizes'
+            'sizes',
+            'tab'
         ));
     }
 

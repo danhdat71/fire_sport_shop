@@ -28,8 +28,9 @@ class SlidersController extends Controller
         $sliders = $respondData['list'];
         $keyword = $respondData['keyword'];
         $orderBy = $respondData['orderBy'];
+        $tab     = "slider";
 
-        return view('admin.slider', compact(['sliders', 'keyword', 'orderBy']));
+        return view('admin.slider', compact(['sliders', 'keyword', 'orderBy', 'tab']));
     }
 
     /**

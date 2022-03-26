@@ -95,8 +95,8 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-header">Chức năng chính</li>
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link active-menu">
+          <li class="nav-item">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -104,7 +104,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/slider" class="nav-link">
+            <a href="/slider" class="nav-link @if(isset($tab) AND $tab == "slider") active-menu @endif">
               <i class="nav-icon fab fa-slideshare"></i>
               <p>
                 Slider
@@ -113,7 +113,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/product-category" class="nav-link">
+            <a href="/product-category" class="nav-link @if(isset($tab) AND $tab == "productCategory") active-menu @endif">
               <i class="nav-icon fas fa-copy"></i>
               <p>
                 Loại sản phẩm
@@ -122,7 +122,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/product" class="nav-link">
+            <a href="/product" class="nav-link @if(isset($tab) AND $tab == "product") active-menu @endif">
               <i class="nav-icon fas fa-book"></i>
               <p>
                 Sản phẩm
