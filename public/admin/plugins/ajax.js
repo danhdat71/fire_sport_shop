@@ -4,7 +4,7 @@
  * Upload slider
  * **/
 $('#upload-slider').click(function(){
-    $(this).prop('disabled', 'disabled');
+    $(this).prop('disabled', true);
     var formData = new FormData($('#form-slider-upload')[0]);
     $.ajax({
         headers: {
@@ -16,7 +16,6 @@ $('#upload-slider').click(function(){
               if (evt.lengthComputable) {
                 var percentComplete = evt.loaded / evt.total;
                 percentComplete = parseInt(percentComplete * 100);
-
                 $('.progress-bar').css({
                     'width' : percentComplete + "%"
                 }).text(percentComplete + "%");
@@ -33,18 +32,18 @@ $('#upload-slider').click(function(){
         data: formData,
         type: 'post',
         success: function (res) {
-            let data = res.data;
-            console.log(data);
+            let data = res.message;
             if(data !== undefined){
                 $('.progress-bar').css({
                     'width' : "0"
                 }).text("0%");
-                let validate = data.message;
-                for(var property in validate) {
-                    let validateMsg = validate[property];
+                for(var property in data) {
+                    let validateMsg = data[property];
+                    console.log(validateMsg);
                     $('.validate-msg').text("");
                     $('#form-slider-upload .' + property).text(validateMsg);
                 }
+                $('#upload-slider').prop('disabled', false);
             }else{
                 Swal.fire({
                     position: 'center',
@@ -105,6 +104,7 @@ $('.edit').click(function(){
  * Update slider data
  * **/
 $('#update-slider').click(function(){
+    $(this).prop('disabled', true);
     let formData = new FormData($("#form-slider-update")[0]);
     $.ajax({
         headers: {
@@ -133,18 +133,17 @@ $('#update-slider').click(function(){
         contentType: false,
         processData: false,
         success: function (res) {
-            let data = res.data;
-            console.log(data);
+            let data = res.message;
             if(data !== undefined){
                 $('.progress-bar').css({
                     'width' : "0"
                 }).text("0%");
-                let validate = data.message;
-                for(var property in validate) {
-                    let validateMsg = validate[property];
+                for(var property in data) {
+                    let validateMsg = data[property];
                     $('.validate-msg').text("");
                     $('#form-slider-update .' + property).text(validateMsg);
                 }
+                $("#update-slider").prop('disabled', false);
             }else{
                 Swal.fire({
                     position: 'center',
@@ -192,7 +191,7 @@ $('.slider-status').on('switchChange.bootstrapSwitch', function (e) {
  * Upload product category
  * **/
 $('#upload-product-category').click(function(){
-    $(this).prop('disabled', 'disabled');
+    $(this).prop('disabled', true);
     var formData = new FormData($('#form-product-category-upload')[0]);
     $.ajax({
         headers: {
@@ -221,18 +220,17 @@ $('#upload-product-category').click(function(){
         data: formData,
         type: 'post',
         success: function (res) {
-            let data = res.data;
-            console.log(data);
+            let data = res.message;
             if(data !== undefined){
                 $('.progress-bar').css({
                     'width' : "0"
                 }).text("0%");
-                let validate = data.message;
-                for(var property in validate) {
-                    let validateMsg = validate[property];
+                for(var property in data) {
+                    let validateMsg = data[property];
                     $('.validate-msg').text("");
                     $('#form-product-category-upload .' + property).text(validateMsg);
                 }
+                $("#upload-product-category").prop('disabled', false);
             }else{
                 Swal.fire({
                     position: 'center',
@@ -276,6 +274,7 @@ $('#upload-product-category').click(function(){
  * **/
  $('#update-product-category').click(function(){
     let formData = new FormData($("#form-product-category-update")[0]);
+    $('#update-product-category').prop('disabled', true);
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': _token
@@ -303,18 +302,17 @@ $('#upload-product-category').click(function(){
         contentType: false,
         processData: false,
         success: function (res) {
-            let data = res.data;
-            console.log(data);
+            let data = res.message;
             if(data !== undefined){
                 $('.progress-bar').css({
                     'width' : "0"
                 }).text("0%");
-                let validate = data.message;
-                for(var property in validate) {
-                    let validateMsg = validate[property];
+                for(var property in data) {
+                    let validateMsg = data[property];
                     $('.validate-msg').text("");
                     $('#form-slider-update .' + property).text(validateMsg);
                 }
+                $('#update-product-category').prop('disabled', false);
             }else{
                 Swal.fire({
                     position: 'center',
@@ -380,7 +378,7 @@ $('#upload-product-category').click(function(){
  * Upload product
  * **/
 $('#upload-product').click(function(){
-    $(this).prop('disabled', 'disabled');
+    $(this).prop('disabled', true);
     $('#form-product-upload p.validate-msg').text("");
     var formData = new FormData($('#form-product-upload')[0]);
     formData.append('long_desc', CKEDITOR.instances['ckeditor_1'].getData());
@@ -412,17 +410,16 @@ $('#upload-product').click(function(){
         data: formData,
         type: 'post',
         success: function (res) {
-            let data = res.data;
-            console.log(data);
+            let data = res.message;
             if(data !== undefined){
                 $('.progress-bar').css({
                     'width' : "0"
                 }).text("0%");
-                let validate = data.message;
-                for(var property in validate) {
-                    let validateMsg = validate[property];
+                for(var property in data) {
+                    let validateMsg = data[property];
                     $('#form-product-upload p.validate-msg.' + property).text(validateMsg);
                 }
+                $('#upload-product').prop('disabled', false);
             }else{
                 Swal.fire({
                     position: 'center',
@@ -500,8 +497,8 @@ $('#upload-product').click(function(){
 /**
  * Update product
  * **/
- $('#update-product').click(function(){
-    $(this).prop('disabled', 'disabled');
+$('#update-product').click(function(){
+    $(this).prop('disabled', true);
     $('#form-product-update p.validate-msg').text("");
     var formData = new FormData($('#form-product-update')[0]);
     formData.append('long_desc', CKEDITOR.instances['ckeditor_2'].getData());
@@ -533,17 +530,16 @@ $('#upload-product').click(function(){
         data: formData,
         type: 'post',
         success: function (res) {
-            let data = res.data;
-            console.log(data);
+            let data = res.message;
             if(data !== undefined){
                 $('.progress-bar').css({
                     'width' : "0"
                 }).text("0%");
-                let validate = data.message;
-                for(var property in validate) {
-                    let validateMsg = validate[property];
+                for(var property in data) {
+                    let validateMsg = data[property];
                     $('#form-product-upload p.validate-msg.' + property).text(validateMsg);
                 }
+                $('#upload-product').prop('disabled', false);
             }else{
                 Swal.fire({
                     position: 'center',
@@ -597,6 +593,94 @@ $('#upload-product').click(function(){
             url: "/product/" + $(this).attr('data-id'),
             success: function (res) {
                 location.reload();
+            }
+        });
+    }
+});
+
+// ------------------- Product Image --------------------
+/**
+ * Upload product image
+ * **/
+$('#upload-product-image').click(function(e){
+    e.preventDefault();
+    $(this).prop('disabled', true);
+    var formData = new FormData($('#form-upload-product-image')[0]);
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': _token
+        },
+        xhr: function() {
+            var xhr = new window.XMLHttpRequest();
+            xhr.upload.addEventListener("progress", function(evt) {
+              if (evt.lengthComputable) {
+                var percentComplete = evt.loaded / evt.total;
+                percentComplete = parseInt(percentComplete * 100);
+                $('.percen-upload-product-image').text(percentComplete + "%");
+              }
+            }, false);
+
+            return xhr;
+        },
+        url: baseUrl + '/product-images',
+        dataType: 'json',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+        type: 'post',
+        success: function (res) {
+            let validate = res.message;
+            let validateMsg = `<p class="text-danger p-0 m-0">`;
+            if(validate !== undefined){
+                for(var property in validate) {
+                    validateMsg += validate[property] + "</br>";
+                }
+                validateMsg += "</p>";
+                Swal.fire({
+                    position: 'top',
+                    icon: 'fail',
+                    html: validateMsg,
+                    timer: 999999,
+                    width: 800,
+                    showConfirmButton: true,
+                });
+            }else{
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Lưu thành công ! Đang chuẩn bị refresh...',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                let timeOut = setTimeout(function(){
+                    $('#add').modal('hide');
+                    location.reload();
+                },3000);
+            }
+        }
+    });
+});
+
+/**
+ * Delete product image
+ * **/
+
+/**
+ * Delete product category
+ * **/
+ $('.delete-product-image').click(function(){
+    let result = true;
+    let _this = $(this);
+    if (result) {
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': _token
+            },
+            type: "delete",
+            url: "/product-images/" + $(this).attr('data-id'),
+            success: function (res) {
+                _this.closest('.item').remove();
             }
         });
     }

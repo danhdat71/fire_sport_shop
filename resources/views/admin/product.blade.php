@@ -143,6 +143,7 @@
                                         </td>
                                         <td class="v-mid">
                                             <button data-id="{{$item->id}}" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm edit-product">Chỉnh sửa</button>
+                                            <a href="/product-images?product_id={{$item->id}}" class="btn btn-sm btn-warning">{{$item->product_images_count}} ảnh</a>
                                             <button
                                                 class="btn text-danger delete-product"
                                                 data-id="{{$item->id}}"
@@ -386,7 +387,7 @@
                                     <option class="{{$item->id}}" value="{{$item->id}}">{{$item->name}}</option>
                                 @endforeach
                             </select>
-                            <p class="text-danger url validate-msg"></p>
+                            <p class="text-danger sizes validate-msg"></p>
                         </div>
                         <div class="col-6">
                             <label class="d-block" for="">Mã màu sắc</label>

@@ -15,4 +15,5 @@ class ImageConstant
     const SLIDER = [1024, 600, 500, 250];
     const PRODUCT_CATEGORY = [1024, 600, 500, 250];
     const PRODUCT = [300, 350, 150, 170];
+    const PRODUCT_IMAGE = [300, 350, 150, 170];
 }

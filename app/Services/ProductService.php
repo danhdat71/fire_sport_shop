@@ -13,17 +13,16 @@ use App\Services\SizeService;
 class ProductService
 {
     use HelpTraits;
+
     /**
      * Product model variable
-     * 
-     * @param $product
      * **/
     protected $product = null;
     protected $colorService = null;
     protected $sizeService = null;
 
     /**
-     * Constructor
+     * Constructor function
      * **/
     public function __construct(
         Product $product,
@@ -54,6 +53,7 @@ class ProductService
             ->when($category, function($q) use($category){
                 $q->where('category_id', $category);
             })
+            ->withCount('productImages')
             ->orderBy('created_at', 'DESC')
             ->paginate(AppConstant::PAGINATE);
 

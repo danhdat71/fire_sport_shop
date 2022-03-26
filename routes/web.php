@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SlidersController;
 use App\Http\Controllers\ProductCategoriesController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ProductImagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,11 @@ Route::get('/product/{id}', [ProductsController::class, 'show']);
 Route::post('/product/update', [ProductsController::class, 'update']);
 Route::post('/product/status/update', [ProductsController::class, 'updateStatus']);
 Route::delete('/product/{id}', [ProductsController::class, 'destroy']);
+
+/** Product Image Managerment **/
+Route::get('/product-images', [ProductImagesController::class, 'index']);
+Route::post('/product-images', [ProductImagesController::class, 'store']);
+Route::delete('/product-images/{id}', [ProductImagesController::class, 'destroy']);
 
 // Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
 //     \UniSharp\LaravelFilemanager\Lfm::routes();

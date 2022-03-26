@@ -7,6 +7,7 @@ use App\Services\SizeService;
 use App\Services\ProductService;
 use App\Services\ProductCategoryService;
 use App\Http\Requests\CreateProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 
 class ProductsController extends Controller
 {
@@ -108,7 +109,7 @@ class ProductsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(UpdateProductRequest $request)
     {
         $requestData = $request->all();
         $imageOne = $request->file('image_1');
