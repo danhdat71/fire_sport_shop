@@ -665,10 +665,6 @@ $('#upload-product-image').click(function(e){
 /**
  * Delete product image
  * **/
-
-/**
- * Delete product category
- * **/
  $('.delete-product-image').click(function(){
     let result = true;
     let _this = $(this);
@@ -684,4 +680,67 @@ $('#upload-product-image').click(function(e){
             }
         });
     }
+});
+
+// ------------------- Blog --------------------
+/**
+ * Upload blog
+ * **/
+ $('#upload-blog').click(function(){
+    //$(this).prop('disabled', true);
+    $('#form-blog-upload p.validate-msg').text("");
+    var formData = new FormData($('#form-blog-upload')[0]);
+    formData.append('long_desc', CKEDITOR.instances['ckeditor_1'].getData());
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': _token
+        },
+        xhr: function() {
+            var xhr = new window.XMLHttpRequest();
+            xhr.upload.addEventListener("progress", function(evt) {
+              if (evt.lengthComputable) {
+                var percentComplete = evt.loaded / evt.total;
+                percentComplete = parseInt(percentComplete * 100);
+
+                $('.progress-bar').css({
+                    'width' : percentComplete + "%"
+                }).text(percentComplete + "%");
+              }
+            }, false);
+
+            return xhr;
+        },
+        url: baseUrl + '/blog',
+        dataType: 'json',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+        type: 'post',
+        success: function (res) {
+            let data = res.message;
+            if(data !== undefined){
+                $('.progress-bar').css({
+                    'width' : "0"
+                }).text("0%");
+                for(var property in data) {
+                    let validateMsg = data[property];
+                    $('#form-blog-upload p.validate-msg.' + property).text(validateMsg);
+                }
+                $('#upload-blog').prop('disabled', false);
+            }else{
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Lưu thành công ! Đang chuẩn bị refresh...',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                let timeOut = setTimeout(function(){
+                    $('#add').modal('hide');
+                    location.reload();
+                },3000);
+            }
+        }
+    });
 });

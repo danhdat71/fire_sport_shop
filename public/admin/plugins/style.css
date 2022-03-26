@@ -127,6 +127,7 @@ ul.pagination li.active a{
 	overflow: hidden;
 	border-radius: 6px;
 	box-shadow: 6px 6px 10px #00000014;
+	cursor: pointer;
 }
 
 .wrap-product-image .item img{

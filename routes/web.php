@@ -5,6 +5,7 @@ use App\Http\Controllers\SlidersController;
 use App\Http\Controllers\ProductCategoriesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProductImagesController;
+use App\Http\Controllers\BlogsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,10 @@ Route::delete('/product/{id}', [ProductsController::class, 'destroy']);
 Route::get('/product-images', [ProductImagesController::class, 'index']);
 Route::post('/product-images', [ProductImagesController::class, 'store']);
 Route::delete('/product-images/{id}', [ProductImagesController::class, 'destroy']);
+
+/** Blog Managerment **/
+Route::get('/blog', [BlogsController::class, 'index']);
+Route::post('/blog', [BlogsController::class, 'store']);
 
 // Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
 //     \UniSharp\LaravelFilemanager\Lfm::routes();
