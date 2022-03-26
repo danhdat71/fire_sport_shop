@@ -31,11 +31,12 @@ class ProductCategoriesController extends Controller
     {
         $respondData = $this->productCategoryService->list($request->only('keyword', 'order_by'));
 
-        $list = $respondData['list'];
+        $list    = $respondData['list'];
         $keyword = $respondData['keyword'];
         $orderBy = $respondData['orderBy'];
+        $tab     = "productCategory";
 
-        return view('admin.product_category', compact(['list', 'keyword', 'orderBy']));
+        return view('admin.product_category', compact(['list', 'keyword', 'orderBy', 'tab']));
     }
 
     /**
