@@ -105,3 +105,71 @@ ul.pagination li.active a{
 .bootstrap-tagsinput{
 	line-height: 28px!important;
 }
+
+.online-btn{
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	background-color: #29e029;
+	border-radius: 999px;
+}
+
+.wrap-product-image{
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-gap: 15px;
+}
+
+.wrap-product-image .item{
+	position: relative;
+	width: 100%;
+	height: 160px;
+	overflow: hidden;
+	border-radius: 6px;
+	box-shadow: 6px 6px 10px #00000014;
+}
+
+.wrap-product-image .item img{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.delete-product-image{
+	width: 100%;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	z-index: 2;
+	text-align: center;
+	background: rgba(255, 0, 0, 0.527);
+	cursor: pointer;
+	color: white;
+	transform: translateY(100%);
+	transition: .3s;
+}
+
+.wrap-product-image .item:hover .delete-product-image{
+	transform: translateY(0);
+}
+
+.input-image{
+	background-color: rgb(214, 214, 214);
+	width: 100%;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+.input-image input{
+	width: 100%;
+	height: 100%;
+}
+.input-image .error_messages{
+	position: absolute;
+	right: 5px;
+	top: 100%;
+	color: red;
+	font-style: italic;
+	font-size: 14px;
+}
