@@ -687,7 +687,7 @@ $('#upload-product-image').click(function(e){
  * Upload blog
  * **/
  $('#upload-blog').click(function(){
-    //$(this).prop('disabled', true);
+    $(this).prop('disabled', true);
     $('#form-blog-upload p.validate-msg').text("");
     var formData = new FormData($('#form-blog-upload')[0]);
     formData.append('long_desc', CKEDITOR.instances['ckeditor_1'].getData());
@@ -743,4 +743,153 @@ $('#upload-product-image').click(function(e){
             }
         }
     });
+});
+
+
+/**
+ * Get data blog
+ * **/
+ $('.edit-blog').click(function(){
+    $.ajax({
+        type: "get",
+        url: "/blog/" + $(this).attr('data-id'),
+        dataType: "json",
+        success: function (res) {
+            $('#id').val(res.id);
+            $('#name').val(res.name);
+            $('#url').val(res.url);
+            $('#short_desc').val(res.short_desc);
+            CKEDITOR.instances['ckeditor_2'].setData(res.long_desc);
+            // Set image
+            $('#preview-image-1').attr('src', "");
+            let imageOne = baseUrl + '/image/blogs/' + res.big_image;
+            $('#big_image').css({'opacity' : '1'}).attr('src', imageOne);
+            
+        }
+    });
+});
+
+/**
+ * Update blog
+ * **/
+ $('#update-blog').click(function(){
+    //$(this).prop('disabled', true);
+    $('#form-blog-upload p.validate-msg').text("");
+    var formData = new FormData($('#form-blog-update')[0]);
+    formData.append('long_desc', CKEDITOR.instances['ckeditor_2'].getData());
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': _token
+        },
+        xhr: function() {
+            var xhr = new window.XMLHttpRequest();
+            xhr.upload.addEventListener("progress", function(evt) {
+              if (evt.lengthComputable) {
+                var percentComplete = evt.loaded / evt.total;
+                percentComplete = parseInt(percentComplete * 100);
+
+                $('.progress-bar').css({
+                    'width' : percentComplete + "%"
+                }).text(percentComplete + "%");
+              }
+            }, false);
+
+            return xhr;
+        },
+        url: baseUrl + '/blog/update',
+        dataType: 'json',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+        type: 'post',
+        success: function (res) {
+            let data = res.message;
+            if(data !== undefined){
+                $('.progress-bar').css({
+                    'width' : "0"
+                }).text("0%");
+                for(var property in data) {
+                    let validateMsg = data[property];
+                    $('#form-blog-update p.validate-msg.' + property).text(validateMsg);
+                }
+                $('#upload-blog').prop('disabled', false);
+            }else{
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Lưu thành công ! Đang chuẩn bị refresh...',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                let timeOut = setTimeout(function(){
+                    $('#add').modal('hide');
+                    location.reload();
+                },3000);
+            }
+        }
+    });
+});
+
+/**
+ * Upload status
+ * **/
+$('.blog-status').on('switchChange.bootstrapSwitch', function (e) {
+    let data = {
+        id : $(this).attr('data-id'),
+        status : ($(this).bootstrapSwitch('state')) ? 1 : 0
+    }
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': _token
+        },
+        type: "post",
+        url: "/blog/status/update",
+        data: {...data},
+        dataType: "json",
+        success: function (res) {
+            console.log(res);
+        }
+    });
+});
+
+/**
+ * Upload special
+ * **/
+$('.blog-special').on('switchChange.bootstrapSwitch', function (e) {
+    let data = {
+        id : $(this).attr('data-id'),
+        status : ($(this).bootstrapSwitch('state')) ? 1 : 0
+    }
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': _token
+        },
+        type: "post",
+        url: "/blog/special/update",
+        data: {...data},
+        dataType: "json",
+        success: function (res) {
+            console.log(res);
+        }
+    });
+});
+
+/**
+ * Delete
+ * **/
+ $('.delete-blog').click(function(){
+    var result = confirm("Xác nhận xóa?");
+    if (result) {
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': _token
+            },
+            type: "delete",
+            url: "/blog/" + $(this).attr('data-id'),
+            success: function (res) {
+                location.reload();
+            }
+        });
+    }
 });

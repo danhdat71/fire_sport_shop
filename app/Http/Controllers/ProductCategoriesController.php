@@ -95,7 +95,6 @@ class ProductCategoriesController extends Controller
     {
         $file = $request->file('image');
         $requestData = $request->only('url', 'status', 'id');
-        
         return $this->productCategoryService->update($file, $requestData);
     }
 
