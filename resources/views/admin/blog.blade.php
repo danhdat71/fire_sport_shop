@@ -15,13 +15,13 @@
         </div><!-- /.container-fluid -->
     </section>
 
-    {{-- <section class="content">
+    <section class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <form action="/product-category" method="get" class="row">
+                            <form action="/blog" method="get" class="row">
                                 <div class="col-lg-3">
                                     <label for="keyword">Tìm kiếm</label>
                                     <input 
@@ -90,22 +90,21 @@
                             <table class="table text-center">
                                 <thead class="bg-orange">
                                     <tr>
-                                        <th class="text-light">ID</th>
                                         <th class="text-light">Hình ảnh</th>
                                         <th class="text-light">URL</th>
                                         <th class="text-light">Trạng thái</th>
+                                        <th class="text-light">Đặc biệt</th>
                                         <th class="text-light">Timestamps</th>
                                         <th class="text-light">Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($list as $productCategory)
+                                    @foreach($list as $blog)
                                     <tr>
-                                        <td class="v-mid">{{$productCategory->id}}</td>
                                         <td class="v-mid">
-                                            <img width="200" src="image/productCategories/{{$productCategory->thumb_image}}" alt="">
+                                            <img width="200" src="image/blogs/{{$blog->thumb_image}}" alt="">
                                         </td>
-                                        <td class="v-mid"><a target="_blank" class="btn" href="{{$productCategory->url}}">{{$productCategory->url}}</a></td>
+                                        <td class="v-mid"><a target="_blank" class="btn" href="{{$blog->url}}">{{$blog->url}}</a></td>
                                         <td class="v-mid">
                                             <input 
                                                 type="checkbox" 
@@ -113,25 +112,36 @@
                                                 data-bootstrap-switch 
                                                 data-off-color="light" 
                                                 data-on-color="orange"
-                                                class="switch-status product-category-status"
-                                                data-id="{{$productCategory->id}}"
-                                                @if($productCategory->status == 1)
+                                                class="switch-status blog-status"
+                                                data-id="{{$blog->id}}"
+                                                @if($blog->status == true)
                                                 checked
                                                 @endif
                                             >
                                         </td>
                                         <td class="v-mid">
-                                            <div>{{$productCategory->created_at}}</div>
-                                            <div>{{$productCategory->updated_at}}</div>
+                                            <input 
+                                                type="checkbox" 
+                                                name="my-checkbox" 
+                                                data-bootstrap-switch 
+                                                data-off-color="light" 
+                                                data-on-color="orange"
+                                                class="switch-status blog-special"
+                                                data-id="{{$blog->id}}"
+                                                @if($blog->special == true)
+                                                checked
+                                                @endif
+                                            >
                                         </td>
                                         <td class="v-mid">
-                                            <button data-id="{{$productCategory->id}}" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm edit-product-category">Chỉnh sửa</button>
-                                            <a href="/product?category={{$productCategory->id}}" class="btn btn-sm btn-warning">
-                                                {{$productCategory->products_count}} SP
-                                            </a>
+                                            <div>{{$blog->created_at}}</div>
+                                            <div>{{$blog->updated_at}}</div>
+                                        </td>
+                                        <td class="v-mid">
+                                            <button data-id="{{$blog->id}}" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm edit-blog">Chỉnh sửa</button>
                                             <button
-                                                class="btn text-danger delete-product-category"
-                                                data-id="{{$productCategory->id}}"
+                                                class="btn text-danger delete-blog"
+                                                data-id="{{$blog->id}}"
                                             >Xóa</button>
                                         </td>
                                     </tr>
@@ -154,7 +164,7 @@
             <!-- /.row -->
         </div>
         <!-- /.container-fluid -->
-    </section> --}}
+    </section>
 
     <div class="modal fade" id="add">
         <div class="modal-dialog" style="max-width: 1000px">
@@ -209,22 +219,22 @@
         <!-- /.modal-dialog -->
     </div>
     
-    {{-- <div class="modal fade" id="edit">
+    <div class="modal fade" id="edit">
         <div class="modal-dialog" style="max-width: 1000px">
           <div class="modal-content">
             <div class="modal-header">
-              Update product category
+              Update bài viết
             </div>
-            <form enctype="multipart/form-data" id="form-product-category-update" class="modal-body">
-                <input type="hidden" id="product-category-id" name="id">
+            <form action="" enctype="multipart/form-data" id="form-blog-update" class="modal-body">
+                <input type="hidden" id="id" name="id">
                 <div class="form-group">
                     <label for="">Tiêu đề</label>
-                    <input type="text" class="form-control url name" name="name">
-                    <p class="text-danger url validate-msg"></p>
+                    <input type="text" class="form-control url" name="name" id="name">
+                    <p class="text-danger name validate-msg"></p>
                 </div>
                 <div class="form-group">
-                    <label for="">Đường dẫn</label>
-                    <input type="text" class="form-control url-genegrate" name="url">
+                    <label for="">URL</label>
+                    <input type="text" class="form-control url-genegrate" name="url" id="url">
                     <p class="text-danger url validate-msg"></p>
                 </div>
                 <div class="form-group">
@@ -232,15 +242,17 @@
                     <p class="text-danger image validate-msg"></p>
                     <div class="input-file-1">
                         <input id="image" type="file" name="image" class="input-image" accept="image/*">
-                        <img class="preview-image" src="" alt="">
+                        <img class="preview-image" src="" alt="" id="big_image">
                         <div class="icon"><i class="fas fa-image"></i></div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <select name="status" class="form-control status">
-                        <option value="1">Hiện sau khi lưu</option>
-                        <option value="0">Ẩn sau khi lưu</option>
-                    </select>
+                    <label for="">Mô tả ngắn</label>
+                    <textarea class="form-control" name="short_desc" rows="3" id="short_desc"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="">Mô tả dài</label>
+                    <textarea class="form-control" name="ckeditor_2" rows="3"></textarea>
                 </div>
             </form>
             <div class="modal-footer">
@@ -251,7 +263,7 @@
                     </div>
                   </div>
                   <div class="col-lg-2">
-                    <button id="update-product-category" type="button" class="btn bg-orange btn-block">Lưu</button>
+                    <button id="update-blog" type="button" class="btn bg-orange btn-block">Lưu</button>
                   </div>
               </div>
             </div>
@@ -259,7 +271,7 @@
           <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
-    </div> --}}
+    </div>
 
 </div>
 @endsection

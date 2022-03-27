@@ -49,8 +49,8 @@ class ColorService
         foreach($colors as $item){
             $exist = $this->color->where('color_code', $item)->exists();
             (!$exist)
-            ? $colorID = ($this->color->create(['color_code' => $item]))->id ?? null
-            : $colorID = $this->color->where('color_code', $item)->first()->id ?? null;
+                ? $colorID = ($this->color->create(['color_code' => $item]))->id ?? null
+                : $colorID = $this->color->where('color_code', $item)->first()->id ?? null;
 
             array_push($colorIDs, $colorID);
         }

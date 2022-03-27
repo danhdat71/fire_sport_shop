@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\BlogService;
 use App\Http\Requests\CreateBlogRequest;
+use App\Http\Requests\UpdateBlogRequest;
 
 class BlogsController extends Controller
 {
@@ -26,10 +27,15 @@ class BlogsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $respondData = $this->blogService->list($request->all());
+        $list    = $respondData['list'];
+        $keyword = $respondData['keyword'];
+        $orderBy = $respondData['orderBy'];
         $tab = 'blog';
-        return view('admin/blog', compact('tab'));
+        
+        return view('admin/blog', compact('tab', 'list', 'keyword', 'orderBy'));
     }
 
     /**
@@ -63,7 +69,7 @@ class BlogsController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->blogService->show($id);
     }
 
     /**
@@ -84,9 +90,11 @@ class BlogsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateBlogRequest $request)
     {
-        //
+        $file = $request->file('image');
+        $requestData = $request->all();
+        return $this->blogService->update($file, $requestData);
     }
 
     /**
@@ -97,6 +105,28 @@ class BlogsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return $this->blogService->destroy($id);
+    }
+
+    /**
+     * Update status
+     * @param $request
+     * @return boolean
+     * **/
+    public function updateStatus(Request $request)
+    {
+        $requestData = $request->only('id', 'status');
+        return $this->blogService->updateStatus($requestData);
+    }
+
+    /**
+     * Update special
+     * @param $request
+     * @return boolean
+     * **/
+    public function updateSpecial(Request $request)
+    {
+        $requestData = $request->only('id', 'status');
+        return $this->blogService->updateSpecial($requestData);
     }
 }

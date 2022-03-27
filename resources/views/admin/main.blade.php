@@ -47,16 +47,16 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Xem Trang Chủ</a>
+        <a href="" class="nav-link">Xem Trang Chủ</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Quản lý file</a>
+        <a target="_blank" href="/laravel-filemanager" class="nav-link">Quản lý file</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Bảo trì</a>
+        <a href="" class="nav-link">Bảo trì</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Tải Teamviewer</a>
+        <a href="https://www.teamviewer.com/vi/" class="nav-link">Tải Teamviewer</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Google Analytics</a>

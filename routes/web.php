@@ -50,10 +50,12 @@ Route::delete('/product-images/{id}', [ProductImagesController::class, 'destroy'
 /** Blog Managerment **/
 Route::get('/blog', [BlogsController::class, 'index']);
 Route::post('/blog', [BlogsController::class, 'store']);
+Route::get('/blog/{id}', [BlogsController::class, 'show']);
+Route::post('/blog/update', [BlogsController::class, 'update']);
+Route::post('/blog/status/update', [BlogsController::class, 'updateStatus']);
+Route::post('/blog/special/update', [BlogsController::class, 'updateSpecial']);
+Route::delete('/blog/{id}', [BlogsController::class, 'destroy']);
 
-// Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-//     \UniSharp\LaravelFilemanager\Lfm::routes();
-// });
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => []], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
