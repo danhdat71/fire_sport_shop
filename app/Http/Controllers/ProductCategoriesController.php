@@ -36,7 +36,7 @@ class ProductCategoriesController extends Controller
         $orderBy = $respondData['orderBy'];
         $tab     = "productCategory";
 
-        return view('admin.product_category', compact(['list', 'keyword', 'orderBy', 'tab']));
+        return view('admin/product_category', compact(['list', 'keyword', 'orderBy', 'tab']));
     }
 
     /**
