@@ -138,7 +138,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/product" class="nav-link">
+            <a href="/template" class="nav-link @if(isset($tab) AND $tab == "template") active-menu @endif">
               <i class="nav-icon fas fa-desktop"></i>
               <p>
                 Giao diện

@@ -893,3 +893,27 @@ $('.blog-special').on('switchChange.bootstrapSwitch', function (e) {
         });
     }
 });
+
+// ------------------- Template --------------------
+/**
+ * Update template
+ * **/
+$('.template-content').on('change', function(){
+    let data = {
+        id : $(this).attr('data-id'),
+        html : $(this).val()
+    }
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': _token
+        },
+        type: "post",
+        url: "/template/update",
+        data: {...data},
+        dataType: "json",
+        success: function (res) {
+            res ? alert("Update thành công !") : false;
+        }
+    });
+});
+
