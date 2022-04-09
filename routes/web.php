@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductCategoriesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProductImagesController;
 use App\Http\Controllers\BlogsController;
+use App\Http\Controllers\TemplatesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +56,10 @@ Route::post('/blog/update', [BlogsController::class, 'update']);
 Route::post('/blog/status/update', [BlogsController::class, 'updateStatus']);
 Route::post('/blog/special/update', [BlogsController::class, 'updateSpecial']);
 Route::delete('/blog/{id}', [BlogsController::class, 'destroy']);
+
+/** Templates card **/
+Route::get('/template', [TemplatesController::class, 'index']);
+Route::post('/template/update', [TemplatesController::class, 'update']);
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => []], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();

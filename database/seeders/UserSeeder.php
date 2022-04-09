@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Constants\RoleConstants;
+use App\Constants\RoleConstant;
 
 class UserSeeder extends Seeder
 {
@@ -19,14 +19,14 @@ class UserSeeder extends Seeder
         User::create([
             'email' => 'danhdat71@gmail.com',
             'name' => 'Danh Đạt',
-            'role' => RoleConstants::SUPER_ADMIN
+            'role' => RoleConstant::SUPER_ADMIN
         ]);
 
         # ADMIN
         User::create([
             'email' => 'datd@bap.jp',
             'name' => 'Danh Đạt',
-            'role' => RoleConstants::ADMIN
+            'role' => RoleConstant::ADMIN
         ]);
     }
 }
