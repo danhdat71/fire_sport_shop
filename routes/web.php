@@ -7,6 +7,8 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProductImagesController;
 use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\TemplatesController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\AuthAdminsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +62,12 @@ Route::delete('/blog/{id}', [BlogsController::class, 'destroy']);
 /** Templates card **/
 Route::get('/template', [TemplatesController::class, 'index']);
 Route::post('/template/update', [TemplatesController::class, 'update']);
+
+/** User controller **/
+Route::get('/user', [UsersController::class, 'index']);
+Route::post('/invite-admin', [AuthAdminsController::class, 'inviteAdmin']);
+Route::get('/sign-in-token/{token}', [AuthAdminsController::class, 'signInToken']);
+Route::post('/submit-sign-in', [AuthAdminsController::class, 'submitSignInToken']);
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => []], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
