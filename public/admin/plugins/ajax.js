@@ -917,3 +917,76 @@ $('.template-content').on('change', function(){
     });
 });
 
+
+// ------------------- User --------------------
+$('#invite-admin').click(function(e){
+    e.preventDefault();
+    let _this = $(this);
+    _this.prop('disabled', true);
+    let data = {
+        email : $('#form-invite-admin #email').val()
+    }
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': _token
+        },
+        type: "post",
+        url: "/invite-admin",
+        data: {...data},
+        dataType: "json",
+        success: function (res) {
+            if(res){
+                $('#add').modal('toggle');
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Mời thành công !',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                _this.prop('disabled', false);
+                $('#form-invite-admin #email').val("");
+            }else{
+                alert("HTTP_INTERNAL_SERVER_ERROR !");
+            }
+        }
+    });
+});
+
+// ------------------- Auth Module --------------------
+
+// Sign up admin
+$('#sign-up').click(function(e){
+    let signUpBtn = $(this);
+    e.preventDefault();
+    $(this).prop('disabled', true);
+    $('#form-sign-up p.validate').text("");
+    var formData = new FormData($('#form-sign-up')[0]);
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('#_token').val()
+        },
+        url: '/submit-sign-in',
+        dataType: 'json',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+        type: 'post',
+        success: function (res) {
+            let data = res.message;
+            if(data !== undefined){
+                for(var property in data) {
+                    let validateMsg = data[property];
+                    $('#form-sign-up p.validate.' + property).text(validateMsg);
+                }
+                signUpBtn.prop('disabled', false);
+            }else{
+                signUpBtn.css({
+                    'background-color':'green',
+                }).text('Thành công !');
+                location.href = '/slider';
+            }
+        }
+    });
+});

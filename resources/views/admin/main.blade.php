@@ -155,7 +155,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/product" class="nav-link">
+            <a href="/user" class="nav-link @if(isset($tab) AND $tab == "user_manager") active-menu @endif">
               <i class="nav-icon fas fa-users-cog"></i>
               <p>
                 Quản lý tài khoản
