@@ -38,6 +38,7 @@ class BlogService
         );
         $requestData['big_image'] = $path['big_image'];
         $requestData['thumb_image'] = $path['thumb_image'];
+        $requestData['user_id'] = auth()->user()->id ?? 1;
         # Store data
         $this->blog->create($requestData);
 

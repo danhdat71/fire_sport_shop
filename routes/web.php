@@ -9,6 +9,8 @@ use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\TemplatesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AuthAdminsController;
+use App\Http\Controllers\BillController;
+use App\Http\Controllers\FrontendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +22,14 @@ use App\Http\Controllers\AuthAdminsController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+/** Outside **/
+Route::get('/', [FrontendController::class, 'home']);
+Route::get('/product-category.html', [FrontendController::class, 'productCategory']);
+Route::get('/product-category/category/{url}.html', [FrontendController::class, 'productCategory']);
+
+
 
 /** Slider Route **/
 Route::get('/slider/', [SlidersController::class, 'index']);
@@ -68,6 +78,11 @@ Route::get('/user', [UsersController::class, 'index']);
 Route::post('/invite-admin', [AuthAdminsController::class, 'inviteAdmin']);
 Route::get('/sign-in-token/{token}', [AuthAdminsController::class, 'signInToken']);
 Route::post('/submit-sign-in', [AuthAdminsController::class, 'submitSignInToken']);
+
+// Order Controller
+Route::get('/order', [BillController::class, 'index']);
+Route::post('/order/status/update', [BillController::class, 'updateStatus']);
+Route::get('/order/{order_id}/detail', [BillController::class, 'detailOrder']);
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => []], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();

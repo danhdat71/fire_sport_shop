@@ -78,7 +78,7 @@ class ProductService
         $path = $this->savePublicImage(
             $imageOne, "products",
             ImageConstant::PRODUCT,
-            80,
+            100,
             true, # is genegrate thumb image
             false # is genegrate blur thumb image
         );

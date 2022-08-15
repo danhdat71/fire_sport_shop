@@ -17,7 +17,7 @@ class CreateSliderRequest extends ApiRequest
     {
         return [
             'url' => 'max:255|string|nullable',
-            'image' => 'mimes:jpeg,jpg,png|max:10000|required',
+            'image' => 'mimes:jpeg,jpg,png,webp|max:10000|required',
         ];
     }
 

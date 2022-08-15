@@ -19,7 +19,7 @@ class CreateProductImageRequest extends ApiRequest
             'product_id' => 'required|exists:products,id',
             'images' => 'array',
             'images.*' => [
-                'mimes:jpg,jpeg,png',
+                'mimes:jpg,jpeg,png,JPG,JPEG,webp',
                 function($attribute, $value, $fail)
                 {
                     $fileSize = $value->getSize() / 1024; # Byte to Kb

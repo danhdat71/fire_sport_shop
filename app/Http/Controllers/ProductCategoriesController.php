@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\ProductCategoryService;
 use App\Http\Requests\CreateProductCategoryRequest;
 use App\Http\Requests\UpdateProductCategoryRequest;
+use App\Models\ProductCategory;
 
 class ProductCategoriesController extends Controller
 {
@@ -118,5 +119,22 @@ class ProductCategoriesController extends Controller
     {
         $requestData = $request->only('id', 'status');
         return $this->productCategoryService->updateStatus($requestData);
+    }
+
+    public function getAllCategory(Request $request)
+    {
+        $category = ProductCategory::where('status', true)
+        ->when(isset($request['limit']), function($q) use($request){
+            $q->take($request['limit']);
+        })
+        ->get();
+
+        return $this->success($category);
+    }
+
+    public function getDetailCategory($url)
+    {
+        $category = ProductCategory::where('url', $url)->first();
+        return $this->success($category);
     }
 }
