@@ -990,3 +990,77 @@ $('#sign-up').click(function(e){
         }
     });
 });
+
+$('.change-order-status').change(function (e) { 
+    e.preventDefault();
+    let id = $(this).attr('data-id');
+    let status = $(this).val();
+    $(this)
+        .removeClass('border-warning')
+        .removeClass('border-danger')
+        .removeClass('border-success');
+    if(status == 0) $(this).addClass('border-warning');
+    else if(status == 1) $(this).addClass('border-success');
+    else if(status == 2) $(this).addClass('border-danger').attr('disabled', 'true');
+
+    let data = {
+        id: id,
+        status: status
+    }
+
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': _token
+        },
+        type: "post",
+        url: "/order/status/update",
+        data: {...data},
+        dataType: "json",
+        success: function (res) {
+            console.log(res);
+        }
+    });
+});
+
+$('.show-detail-order').click(function(){
+    let id = $(this).attr('data-id');
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': _token
+        },
+        type: "get",
+        url: `/order/${id}/detail`,
+        dataType: "json",
+        success: function (res) {
+            let products = res.data.products;
+            let detailOrder = ``;
+            let totalBill = 0;
+            products.forEach(function(element){
+                totalBill+= element.pivot.price_sale * element.pivot.amount;
+                detailOrder+=`<tr>`;
+                detailOrder+=`<td style="vertical-align:middle;">${element.name}</td>`;
+                detailOrder+=`<td style="vertical-align:middle;"><img style="width: 100px;" src="./image/products/${element.image_1}" /></td>`;
+                detailOrder+=`<td style="vertical-align:middle;">
+                    <div
+                        style="display:flex;align-items:center;justify-content:center;"
+                    >
+                        <span style="padding-right: 10px;">${element.pivot.size}</span>
+                        <div
+                            style="
+                                width: 15px;
+                                height: 15px;
+                                border-radius: 999px;
+                                background-color: ${element.pivot.color_code};
+                            "
+                        ></div>
+                    </div>
+                </td>`;
+                detailOrder+=`<td style="vertical-align:middle;">${element.pivot.amount} * ${element.pivot.price_sale.toLocaleString()}đ</td>`;
+                detailOrder+=`<td style="vertical-align:middle;">${(element.pivot.amount * element.pivot.price_sale).toLocaleString()} đ</td>`;
+                detailOrder+=`</tr>`;
+            });
+            $('.detail-order').html(detailOrder);
+            $('#total_bill').text(totalBill.toLocaleString());
+        }
+    });
+})

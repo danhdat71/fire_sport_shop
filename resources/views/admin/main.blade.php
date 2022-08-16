@@ -130,6 +130,14 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="/order" class="nav-link @if(isset($tab) AND $tab == "order") active-menu @endif">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Đơn đặt hàng
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="/blog" class="nav-link @if(isset($tab) AND $tab == "blog") active-menu @endif">
               <i class="nav-icon fas fa-solid fa-scroll"></i>
               <p>

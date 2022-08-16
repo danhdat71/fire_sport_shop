@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\AppConstant;
 use Illuminate\Http\Request;
 use App\Services\SizeService;
 use App\Services\ProductService;
 use App\Services\ProductCategoryService;
 use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 
 class ProductsController extends Controller
 {
@@ -140,5 +143,61 @@ class ProductsController extends Controller
     {
         $requestData = $request->only('id', 'status');
         return $this->productService->updateStatus($requestData);
+    }
+
+    public function getProducts(Request $request)
+    {
+        $products = Product::
+        leftJoin('product_categories', 'product_categories.id', '=', 'products.category_id')
+        ->when(isset($request['order_by']), function($q) use($request){
+            $orderBy = explode("|", $request['order_by']);
+            $q->orderBy("products.".$orderBy[0], $orderBy[1]);
+        })
+        ->when(!empty($request['category_url']), function($q) use($request){
+            $categoryUrl = explode(",", $request['category_url']);
+            $q->whereIn('product_categories.url', $categoryUrl);
+        })
+        ->when(!empty($request['color_id']), function($q) use($request){
+            $colorId = explode(",", $request['color_id']);
+            $q->whereHas('colors', function($q) use($colorId){
+                $q->whereIn('colors.id', $colorId);
+            });
+        })
+        ->when(!empty($request['size_id']), function($q) use($request){
+            $sizeId = explode(",", $request['size_id']);
+            $q->whereHas('sizes', function($q) use($sizeId){
+                $q->whereIn('sizes.id', $sizeId);
+            });
+        })
+        ->when(!empty($request['price_range']), function($q) use($request){
+            $priceRange = explode(",", $request['price_range']);
+            $q->whereBetween('price_sale', $priceRange);
+        })
+        ->when(!empty($request['other_current_url']), function($q) use($request){
+            $q->where('products.url', "<>", $request['other_current_url']);
+        })
+        ->when(!empty($request['keyword']), function($q) use($request){
+            $q->where('products.name', 'LIKE', "%". $request['keyword']. "%");
+        })
+        ->where('products.status', true)
+        ->select(
+            'products.name',
+            'products.price_sale',
+            'products.price_root',
+            'products.image_1',
+            'products.image_2',
+            'products.url',
+        )
+        ->paginate($request['limit'] ?? AppConstant::PAGINATE);
+
+        return $this->success($products);
+    }
+
+    public function getDetailProduct($url)
+    {
+        $product = Product::where('url', $url)
+            ->with(['productImages', 'sizes', 'colors', 'category'])
+            ->first();
+        return $this->success($product);
     }
 }

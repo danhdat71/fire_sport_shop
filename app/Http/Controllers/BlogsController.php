@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\AppConstant;
 use Illuminate\Http\Request;
 use App\Services\BlogService;
 use App\Http\Requests\CreateBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
+use App\Models\Blog;
+use Illuminate\Support\Facades\DB;
 
 class BlogsController extends Controller
 {
@@ -128,5 +131,41 @@ class BlogsController extends Controller
     {
         $requestData = $request->only('id', 'status');
         return $this->blogService->updateSpecial($requestData);
+    }
+
+    public function getBlogs(Request $request)
+    {
+        return Blog::where('blogs.status', true)
+        ->when(isset($request['special']), function($q) use($request){
+            $q->where('special', $request['special']);
+        })
+        ->orderBy('id', 'desc')
+        ->select(
+            'id',
+            'user_id',
+            'blogs.big_image',
+            'blogs.name',
+            'blogs.short_desc',
+            'blogs.created_at',
+            'blogs.url',
+            DB::raw("DATE_FORMAT(blogs.created_at, '%Y-%m-%d') as create_date")
+        )
+        ->with(['user'=> function($q){
+            $q->select('id', 'name');
+        }])
+        ->paginate($request['limit'] ?? AppConstant::PAGINATE);
+    }
+
+    public function showBlog($url)
+    {
+        $blog = Blog::where('url', $url)
+            ->with(['user'])
+            ->select(
+                '*',
+                DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y %H:%i") as create_at')
+            )
+            ->first();
+
+        return $this->success($blog);
     }
 }

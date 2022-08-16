@@ -12,10 +12,10 @@ class ImageConstant
      * item[2] : Width small image
      * item[3] : Height small image
      * **/
-    const SLIDER = [1024, 600, 500, 250];
+    const SLIDER = [2048, 1200, 500, 250];
     const PRODUCT_CATEGORY = [1024, 600, 500, 250];
-    const PRODUCT = [300, 350, 150, 170];
-    const PRODUCT_IMAGE = [300, 350, 150, 170];
-    const BLOG = [300, 350, 150, 170];
+    const PRODUCT = [600, 650, 150, 170];
+    const PRODUCT_IMAGE = [500, 550, 150, 170];
+    const BLOG = [500, 500, 150, 170];
     const USER = [500, 500, 150, 150];
 }

@@ -2,8 +2,9 @@
 // config
 $link_limit = 7; // maximum number of links (a little bit inaccurate, but will be ok for now)
 $paginator->appends([
-    'keyword' => $keyword,
-    'order_by' => $order_by
+    'keyword' => $keyword ?? null,
+    'order_by' => $order_by ?? null,
+    'status' => $status ?? null
 ]);
 ?>
 

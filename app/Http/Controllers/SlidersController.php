@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\SliderService;
 use App\Http\Requests\CreateSliderRequest;
 use App\Http\Requests\UpdateSliderRequest;
+use App\Models\Slider;
 
 class SlidersController extends Controller
 {
@@ -114,5 +115,11 @@ class SlidersController extends Controller
     {
         $requestData = $request->only('id', 'status');
         return $this->sliderService->updateStatus($requestData);
+    }
+
+    public function getAllSlider()
+    {
+        $sliders = Slider::where('status', true)->get();
+        return $this->success($sliders);
     }
 }
